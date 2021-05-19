@@ -1,0 +1,60 @@
+<template>
+<div :class="[$style.wrapper]">
+ 
+<div :class="[$style.input__block]">
+<input :class="[$style.input__block_el]" placeholder="date" v-model="date" />
+<input :class="[$style.input__block_el]" placeholder="category" v-model="category" />
+<input :class="[$style.input__block_el]" placeholder="price" v-model.number="price" />
+<button :class="[$style.input__block_btn]" @click="save">ADD +</button>
+</div>
+</div>
+</template>
+ 
+<script>
+export default {
+props: {
+ 
+},
+data() {
+return {
+date:'',
+category: '',
+price: 0,
+}
+},
+methods: {
+save() {
+const {date, category, price} = this;
+this.$emit('add', {date, category, price});
+},
+ 
+}
+}
+</script>
+ 
+<style lang="scss" module>
+.wrapper {
+margin: 0 auto;
+padding: 0px;
+font-size: 28px;
+}
+.input__block {
+width: 200px;
+display: flex;
+flex-direction: column;
+margin: 20px 20px;
+}
+.input__block_el {
+height: 30px;
+margin-top: 10px;
+border: 1px solid rgb(182, 182, 182);
+border-radius: 3px;
+}
+.input__block_btn {
+width: 150px;
+height: 30px;
+margin-top: 10px;
+align-self: flex-end;
+}
+ 
+</style>
