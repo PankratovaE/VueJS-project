@@ -12,18 +12,20 @@
     <div :class="[$style.costs__list_el]">{{ p.category }}</div>
     <div :class="[$style.costs__list_el]">{{ p.price }}</div>
 </div>
-
+<Pagination />
 </div>
 </template>
  
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import Pagination from "../components/Pagination.vue";
 
 export default {
-       
+    components: {
+        Pagination
+    },
     methods: {
         ...mapMutations([
-            
             'setPageCount'
         ]),
 
