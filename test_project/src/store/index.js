@@ -12,20 +12,23 @@ export default new Vuex.Store({
         paginatedData: [],
         pageCount: 0,
         curDate: '',
+
+        editObj: {},
+        editObjIndex: 0,
     },
     mutations: {
         setPaymentsListData(state, payload) {
+            // state.paymentsList.push(payload);
             state.paymentsList = payload;
         },
         addPaymentsListData(state, data) {
-            state.paymentsList.push(data)
+            state.paymentsList.push(data);
         },
         setCategoriesList(state, payload) {
             state.categories = payload;
         },
         setNextPage(state) {
             state.pageNumber++;
-            
         },
         setPrevPage(state) {
             state.pageNumber--;
@@ -33,7 +36,20 @@ export default new Vuex.Store({
         setPage(state, i) {
             state.pageNumber = i - 1;
         },
-    },
+        
+        setEditObj(state, payload) {
+            state.editObj = payload;
+            state.editObjIndex = state.paymentsList.indexOf(state.editObj)
+        },
+      
+        setNewValue (state, payload) {
+            state.paymentsList.splice(state.editObjIndex, 1, payload);
+        },
+        delItem (state) {
+            state.paymentsList.splice(state.editObjIndex, 1);
+        }
+        
+    }, 
     getters: {
         getPaymentsList: state => state.paymentsList,
         getPaymentsListFullPrice: state => {
@@ -53,9 +69,28 @@ export default new Vuex.Store({
             let d = new Date();
             return state.curDate = `${d.getDate()}.${d.getMonth()+1}.${d.getFullYear()}`;
         },
+        getEditObj: state => state.editObj,
+
     },
     actions: {
         fetchData({ commit }) {
+            //     const data = window.localStorage.getItem('list');
+            //     console.log(JSON.parse(data))
+            //     commit('setPaymentsListData', JSON.parse(data))
+            // },
+   
+            // return fetch('./list.json')
+            // .then(response => response.json())
+            // .then(data => {
+            //     for(let el of data) {
+            //         commit('setPaymentsListData', el)
+            //     }
+            // })
+            // .catch(error => 
+            //     console.log(error))
+            // },
+
+
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve([
@@ -227,7 +262,14 @@ export default new Vuex.Store({
                 commit('setCategoriesList', res)
             })
         },
-        
+        sendData(state) {
+            const d = JSON.stringify(state.state.paymentsList);
+            console.log(d);
+            // // window.localStorage.setItem('list', d);
+            // console.log(JSON.parse(window.localStorage.getItem('list')));
+                       
+        },
+       
        
     },
 })

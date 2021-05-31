@@ -7,12 +7,16 @@
     <div :class="[$style.costs__list_el]">Price</div>
 </div>
 <div v-for="(p, index) in getPaginatedData" :key="index" :class="[$style.costs__list]">
-    <div :class="[$style.costs__list_n]">{{ getSize*getPageNumber+1+index }}</div>
+    <div :class="[$style.costs__list_n]">{{ n = getSize*getPageNumber+1+index }}</div>
     <div :class="[$style.costs__list_el]">{{ p.date }}</div>
     <div :class="[$style.costs__list_el]">{{ p.category }}</div>
     <div :class="[$style.costs__list_el]">{{ p.price }}</div>
+    <div @click="showForm('editform'); setEditObject(p)" :id=" index + 1 " class="context__menu">...</div>
+    
 </div>
 <Pagination />
+<button @click="showForm('paymentsform')">Show payments form</button>
+<button @click="$modal.close()">Close payments form</button>
 </div>
 </template>
  
@@ -22,13 +26,18 @@ import Pagination from "../components/Pagination.vue";
 
 export default {
     components: {
-        Pagination
+        Pagination,
     },
     methods: {
         ...mapMutations([
-            'setPageCount'
+            'setPageCount', 'setEditObj'
         ]),
-
+        showForm(name) {
+            this.$modal.show(name);
+        },
+        setEditObject(obj) {
+            this.$store.commit('setEditObj', obj)
+        },
     },
     computed: {
  
@@ -36,7 +45,7 @@ export default {
             'getPaginatedData', 'getSize', 'getPageNumber', 'getPaymentsList'
         ])
     },
- 
+
 }
 </script>
  

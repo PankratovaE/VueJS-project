@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import PageDashboard from "../page/PageDashboard.vue";
-import PageAbout from "../page/PageAbout.vue";
-import Page404 from "../page/Page404.vue";
+// import PageDashboard from "../page/PageDashboard.vue";
+// import PageAbout from "../page/PageAbout.vue";
+// import Page404 from "../page/Page404.vue";
 
 Vue.use(Router);
 
@@ -13,7 +13,7 @@ export default new Router({
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: PageDashboard,
+            component: () => import("../page/PageDashboard.vue"),
         },
         // {
         //     path: '/dashboard/:page',
@@ -23,17 +23,17 @@ export default new Router({
         {
             path: '/about',
             name: 'about',
-            component: PageAbout,
+            component: () => import("../page/PageAbout.vue"),
         },
         {
             path: '/404',
             name: '404',
-            component: Page404,
+            component: () => import("../page/Page404.vue"),
         },
         {
             path: '/dashboard/add/:category',
             name: 'autoAdd',
-            component: PageDashboard,
+            component: () => import("../page/PageDashboard.vue"),
         },
     ]
 })
