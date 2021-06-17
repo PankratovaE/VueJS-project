@@ -50,17 +50,13 @@ export default {
         ...mapMutations([
             'addPaymentsListData', 'sendData'
         ]),
-        // ...mapActions([
-        //     'sendData',
-        // ]),
-        
 
         save() {
             const { date, category, price } = this;
             this.$store.commit('addPaymentsListData', { date, category, price });
             // this.$store.dispatch('sendData');
         },
-        
+
     },
     mounted() {
         this.category = this.$route.params.category;

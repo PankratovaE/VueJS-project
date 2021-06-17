@@ -10,7 +10,7 @@
             color="teal"
             dark
             v-on="on"
-            class="my-8"
+            class="my-4"
           >
           Add new cost
           <v-icon dark>mdi-plus</v-icon>
@@ -20,9 +20,9 @@
           <PaymentsForm />
         </v-card>
       </v-dialog>
-        <PaymentsList />
+        <PaymentsList @updateChart="updateChart"/>
     </v-col>
-    <v-col>
+    <v-col class="my-4">
       <canvas
         ref="canvas"
         :class="[$style.diagram__size]"
@@ -33,17 +33,18 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import PaymentsList from "../components/PaymentsList.vue";
 import PaymentsForm from "../components/PaymentsForm.vue";
 import { Doughnut } from "vue-chartjs";
+
 
 export default {
   extends: Doughnut,
   data() {
     return {
       formIsVisible: false,
-      data: {
+      chartData: {
         labels: [],
         datasets: [{
             label: '# of Votes',
@@ -60,41 +61,33 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'fetchData', 'fetchCategoriesList'
-    ]),
-
     clicked() {
       this.formIsVisible = !this.formIsVisible;
     },
     totalPrice() {
-      // console.log('in total price')
-      // console.log(this.getCategoriesList)
       return this.getCategoriesList.map(category => {
       return this.getPaymentsList.reduce((total, cur) => {
         if (cur.category === category) {
-          total += cur.price;
+          total += +cur.price;
         }
         return total;
       }, 0)
     })
+    },
+    updateChart() {
+      this.$data.chartData.datasets[0].data = this.totalPrice();
+      this.renderChart(this.chartData)
     }
   }, 
   components: {
     PaymentsList,
     PaymentsForm,
   },
-  created() {
-    this.fetchData();
-    this.fetchCategoriesList();
-    this.$data.data.labels = this.getCategoriesList;
-    this.$data.data.datasets[0].data = this.totalPrice();
-  },
+
   mounted() {
-    this.renderChart(this.data)
-    console.log(this.getCategoriesList)
-    console.log(this.$data.data.labels)
-    
+    this.$data.chartData.labels = this.getCategoriesList;
+    this.$data.chartData.datasets[0].data = this.totalPrice();
+    this.renderChart(this.chartData)
   },
   computed: {
     ...mapGetters([
@@ -102,10 +95,15 @@ export default {
     ]),
   },
   updated() {
-    this.$data.data.datasets[0].data = this.totalPrice();
-    //     console.log(this.getCategoriesList)
-    // console.log(this.$data.data.labels)
+    this.$data.chartData.datasets[0].data = this.totalPrice();
+  },
+  watch: {
+  chartData () {
+    console.log('from watch dashboard');
+    this.renderChart(this.chartData)
   }
+}
+
 }  
 </script>
 
@@ -118,6 +116,7 @@ font-size: 26px;
   display: block;
   max-width: 500px;
   max-height: 500px;
+  margin-top: 64px;
 
 }
 </style>

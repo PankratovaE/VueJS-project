@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="tableHeaders"
-    :items="listWithIndex"
+    :items="getPaymentsList"
     class="elevation-1"
   >
     <template v-slot:top>
@@ -115,7 +115,7 @@ export default {
     data() {
         return {
             tableHeaders: [
-                {text: '#', value: 'index'},
+                {text: '#', value: 'pos'},
                 {text: 'Date', value: 'date'},
                 {text: 'Category', value: 'category'},
                 {text: 'Value', value: 'price'},
@@ -126,11 +126,13 @@ export default {
             dialogDelete: false,
             editedIndex: -1,
             editedItem: {
+                pos: null,
                 date: '',
                 category: '',
                 price: 0
             },
             defaultItem: {
+                pos: null,
                 date: '',
                 category: '',
                 price: 0
@@ -139,29 +141,28 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'setPageCount', 'setEditObj'
+            'setPageCount', 'setEditObj', 'setNewValue', 'delItem'
         ]),
         showForm(name) {
             this.$modal.show(name);
         },
 
         editItem (item) {
-        this.editedIndex = this.listWithIndex.indexOf(item)
+        // console.log(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
-        this.$store.commit('setEditObj', this.editedItem)
-        this.$store.commit('setNewValue', this.editedItem)
+        this.$store.commit('setEditObj', item)
       },
 
       deleteItem (item) {
-        this.editedIndex = this.listWithIndex.indexOf(item)
         this.editedItem = Object.assign({}, item)
+        this.$store.commit('setEditObj', item)
         this.dialogDelete = true
        },
 
       deleteItemConfirm () {
-        this.listWithIndex.splice(this.editedIndex, 1)
         this.$store.commit('delItem', this.editedItem)
+        this.$emit('updateChart')
         this.closeDelete()
       },
 
@@ -182,12 +183,9 @@ export default {
       },
 
       save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.listWithIndex[this.editedIndex], this.editedItem)
-        } else {
-          this.listWithIndex.push(this.editedItem)
-        }
-        this.close()
+          this.$store.commit('setNewValue',this.editedItem)
+          this.$emit('updateChart')
+          this.close()
       },
     },
     
@@ -196,12 +194,7 @@ export default {
         ...mapGetters([
             'getPaginatedData', 'getSize', 'getPageNumber', 'getPaymentsList', 'getCategoriesList'
         ]),
-        listWithIndex() {
-            return this.getPaymentsList.map((obj, i) => {
-                obj.index = i + 1;
-                return obj;
-            })
-        },
+
         formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
@@ -213,6 +206,7 @@ export default {
       dialogDelete (val) {
         val || this.closeDelete()
       },
+
     },
 
 }

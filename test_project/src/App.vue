@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :class="[$style.wrapper]">
     <v-system-bar app flat>
         <v-btn :ripple="false" plain to="/dashboard">Dashboard</v-btn>
         <v-btn :ripple="false" plain to="/about">About</v-btn>
@@ -17,6 +17,7 @@
 </template>
  
 <script>
+import { mapActions } from 'vuex';
 
 export default {
   name: "App",
@@ -29,6 +30,9 @@ export default {
     Modal: () => import('./components/modalwindows/Modal.vue'),
   },
   methods: {
+    ...mapActions([
+      'fetchData', 'fetchCategoriesList'
+    ]),
         onShow(name) {
             this.shown = name;
         },
@@ -37,6 +41,8 @@ export default {
         }
     },
   mounted() {
+    this.fetchData();
+    this.fetchCategoriesList();
     this.$router.push({ name: 'dashboard'});
     this.$modal.EventBus.$on('show', this.onShow);
     this.$modal.EventBus.$on('close', this.onClose);
@@ -49,6 +55,9 @@ export default {
 </script>
  
 <style lang="scss" module>
+  .wrapper {
+    padding-left: 50px;
+  }
   :global(.fade-enter-active), :global(.fade-leave-active) {
     transition: opacity 1s;
   }
