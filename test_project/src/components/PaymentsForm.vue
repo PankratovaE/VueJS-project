@@ -22,15 +22,14 @@ export default {
     },
     data() {
         return {
-            date:'',
+            date: '',
             category: '',
             price: 0,
-            
         }
     },
     methods: {
         ...mapMutations([
-            'addPaymentsListData'
+            'addPaymentsListData',
         ]),
 
         save() {
@@ -39,9 +38,14 @@ export default {
            
         },
     },
+    mounted() {
+        this.category = this.$route.params.category;
+        this.price = this.$route.query.price;
+        this.date = this.getCurDate;
+    },
     computed: {
         ...mapGetters([
-            'getCategoriesList'
+            'getCategoriesList', 'getCurDate'
         ]),
     },
     

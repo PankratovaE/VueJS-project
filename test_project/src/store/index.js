@@ -11,6 +11,7 @@ export default new Vuex.Store({
         size: 8,
         paginatedData: [],
         pageCount: 0,
+        curDate: '',
     },
     mutations: {
         setPaymentsListData(state, payload) {
@@ -24,7 +25,7 @@ export default new Vuex.Store({
         },
         setNextPage(state) {
             state.pageNumber++;
-            console.log(state.pageNumber)
+            
         },
         setPrevPage(state) {
             state.pageNumber--;
@@ -32,15 +33,6 @@ export default new Vuex.Store({
         setPage(state, i) {
             state.pageNumber = i - 1;
         },
-        // getPaginatedData(state) {
-        //     const start = state.pageNumber * state.size,
-        //     end =  start * state.size;
-            
-        //     return state.paymentsList.slice(start, end)
-        // },
-        // setPageCount(state) {
-        //     return Math.ceil(state.paymentsList.length / state.size);
-        // }
     },
     getters: {
         getPaymentsList: state => state.paymentsList,
@@ -56,6 +48,10 @@ export default new Vuex.Store({
             const start = state.pageNumber * state.size,
                     end =  start + state.size;
             return state.paymentsList.slice(start, end)
+        },
+        getCurDate: state => {
+            let d = new Date();
+            return state.curDate = `${d.getDate()}.${d.getMonth()+1}.${d.getFullYear()}`;
         },
     },
     actions: {
