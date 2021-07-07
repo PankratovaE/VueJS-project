@@ -20,6 +20,10 @@ export default new Vuex.Store({
         setPaymentsListData(state, payload) {
             // state.paymentsList.push(payload);
             state.paymentsList = payload;
+
+            state.paymentsList.map((obj, i) => {
+                obj.pos = i + 1;
+            })
         },
         addPaymentsListData(state, data) {
             state.paymentsList.push(data);
@@ -39,7 +43,7 @@ export default new Vuex.Store({
         
         setEditObj(state, payload) {
             state.editObj = payload;
-            state.editObjIndex = state.paymentsList.indexOf(state.editObj)
+            state.editObjIndex = state.paymentsList.indexOf(payload)
         },
       
         setNewValue (state, payload) {
@@ -47,6 +51,9 @@ export default new Vuex.Store({
         },
         delItem (state) {
             state.paymentsList.splice(state.editObjIndex, 1);
+            state.paymentsList.map((obj, i) => {
+                obj.pos = i + 1;
+            })
         }
         
     }, 
@@ -67,7 +74,16 @@ export default new Vuex.Store({
         },
         getCurDate: state => {
             let d = new Date();
-            return state.curDate = `${d.getDate()}.${d.getMonth()+1}.${d.getFullYear()}`;
+            let days = d.getDate();
+            let month = d.getMonth()+1;
+            let year = d.getFullYear();
+            if (days < 10) {
+                days = '0' + days;
+            }
+            if (month < 10) {
+                month = '0' + month;
+            }
+            return state.curDate = `${year}-${month}-${days}`;
         },
         getEditObj: state => state.editObj,
 
@@ -94,7 +110,7 @@ export default new Vuex.Store({
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve([
-                        {
+                        {   
                             date: '12.05.2021',
                             category: 'Food',
                             price: 123,
@@ -193,7 +209,8 @@ export default new Vuex.Store({
                             date: '21.05.2021',
                             category: 'Food',
                             price: 753,
-                        },{
+                        },
+                        {
                             date: '12.05.2021',
                             category: 'Entertaiment',
                             price: 123,
@@ -244,18 +261,19 @@ export default new Vuex.Store({
                             price: 753,
                         }
                     ])
-                }, 1000)              
+                }, 0)              
             })
                 .then(res => {
                     commit('setPaymentsListData', res)
                 })
         },
         fetchCategoriesList({ commit }) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([
                 'Education', 'Sport', 'Navigation', 'Food', 'Entertaiment',
-                ])
+                ]);
+                    reject(new Error('no list categories in store/index.js'));
                 }, 0)
             })
             .then(res => {
