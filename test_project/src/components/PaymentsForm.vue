@@ -3,7 +3,10 @@
  
 <div :class="[$style.input__block]">
 <input :class="[$style.input__block_el]" placeholder="date" v-model="date" />
-<input :class="[$style.input__block_el]" placeholder="category" v-model="category" />
+<select v-model="category">
+    <option v-for="cat in getCategoriesList" :key="cat">{{ cat }}</option>
+</select>
+<!-- <input :class="[$style.input__block_el]" placeholder="category" v-model="category" /> -->
 <input :class="[$style.input__block_el]" placeholder="price" v-model.number="price" />
 <button :class="[$style.input__block_btn]" @click="save">ADD +</button>
 </div>
@@ -11,24 +14,37 @@
 </template>
  
 <script>
+import { mapMutations, mapGetters } from 'vuex';
+
 export default {
-props: {
- 
-},
-data() {
-return {
-date:'',
-category: '',
-price: 0,
-}
-},
-methods: {
-save() {
-const {date, category, price} = this;
-this.$emit('add', {date, category, price});
-},
- 
-}
+    props: {
+    
+    },
+    data() {
+        return {
+            date:'',
+            category: '',
+            price: 0,
+            
+        }
+    },
+    methods: {
+        ...mapMutations([
+            'addPaymentsListData'
+        ]),
+
+        save() {
+            const { date, category, price } = this;
+            this.$store.commit('addPaymentsListData', { date, category, price });
+           
+        },
+    },
+    computed: {
+        ...mapGetters([
+            'getCategoriesList'
+        ]),
+    },
+    
 }
 </script>
  

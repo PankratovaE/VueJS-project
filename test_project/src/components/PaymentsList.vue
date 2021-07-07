@@ -6,65 +6,35 @@
     <div :class="[$style.costs__list_el]">Category</div>
     <div :class="[$style.costs__list_el]">Price</div>
 </div>
-<div v-for="(p, index) in paginatedData" :key="index" :class="[$style.costs__list]">
-    <div :class="[$style.costs__list_n]">{{ size*pageNumber+1+index }}</div>
+<div v-for="(p, index) in getPaginatedData" :key="index" :class="[$style.costs__list]">
+    <div :class="[$style.costs__list_n]">{{ getSize*getPageNumber+1+index }}</div>
     <div :class="[$style.costs__list_el]">{{ p.date }}</div>
     <div :class="[$style.costs__list_el]">{{ p.category }}</div>
     <div :class="[$style.costs__list_el]">{{ p.price }}</div>
 </div>
-<div :class="[$style.pagination__block]">
-<button @click="prevPage" :disabled="pageNumber == 0">Prev</button>
-<div v-for="(i, index) in pageCount" :key="index">
-    <button @click="goToPage(i)">{{ i }}</button>
-</div>
-<button @click="nextPage" :disabled="pageNumber + 1 == pageCount">Next</button>
-</div>
+
 </div>
 </template>
  
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
-props: {
-items: {
-type: Array,
-required: true,
-},
-size: {
-type: Number,
-required: false,
-default: 8,
-},
-},
-data() {
-return {
-pageNumber:0,
+       
+    methods: {
+        ...mapMutations([
+            
+            'setPageCount'
+        ]),
+
+    },
+    computed: {
  
-}
-},
-methods: {
-    nextPage() {
-        this.pageNumber++;
-        console.log(this.items)
+        ...mapGetters([
+            'getPaginatedData', 'getSize', 'getPageNumber', 'getPaymentsList'
+        ])
     },
-    prevPage() {
-        this.pageNumber--;
-    },
-    goToPage(i) {
-        this.pageNumber = i - 1;
-    }
-},
-computed: {
-    pageCount() {
-        let l = this.items.length,
-        s = this.size;
-        return Math.ceil(l/s);
-    },
-    paginatedData() {
-        const start = this.pageNumber * this.size,
-        end = start + this.size;
-        return this.items.slice(start, end);
-    }
-},
+ 
 }
 </script>
  
