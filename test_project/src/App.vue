@@ -1,19 +1,19 @@
 <template>
-<div id="app">
+  <v-app>
+    <v-system-bar app flat>
+        <v-btn :ripple="false" plain to="/dashboard">Dashboard</v-btn>
+        <v-btn :ripple="false" plain to="/about">About</v-btn>
+        <v-btn :ripple="false" plain to="/404">404</v-btn>
+    </v-system-bar>
+    <v-app-bar app flat><span class="text-h4">My personal costs</span></v-app-bar>
+    <v-main>
+      <transition name="fade">
+        <Modal v-if="shown" :name1="shown" />
+      </transition>
+      <router-view />
+    </v-main>
   
-<header><h2>My personal costs</h2>
-  <transition name="fade">
-    <Modal v-if="shown" :name1="shown" />
-  </transition>
-      <router-link to="/dashboard">Dashboard</router-link>
-      <router-link to="/about">About</router-link>
-      <router-link to="/404">404</router-link>
-</header>
-<main>
-  <router-view />
-</main>
- 
-</div>
+  </v-app>
 </template>
  
 <script>

@@ -1,20 +1,33 @@
 <template>
-<div :class="[$style.wrapper]">
- 
-<div :class="[$style.input__block]">
-<input :class="[$style.input__block_el]" placeholder="date" v-model="date" />
-<select v-model="category">
-    <option v-for="cat in getCategoriesList" :key="cat">{{ cat }}</option>
-</select>
-<!-- <input :class="[$style.input__block_el]" placeholder="category" v-model="category" /> -->
-<input :class="[$style.input__block_el]" placeholder="price" v-model.number="price" />
-<button :class="[$style.input__block_btn]" @click="save">ADD +</button>
-</div>
-</div>
+        <v-form class="px-4 py-4">
+            <v-text-field
+                v-model="date"
+                @click="shown = true">
+            </v-text-field>
+            <v-overlay v-show="shown">
+                <v-date-picker
+                    v-model="date"
+                    elevation="2"
+                    >
+                </v-date-picker>
+            </v-overlay>
+            <v-select
+                :items="getCategoriesList"
+                label="Categories"
+                v-model="category">
+                <!-- <option v-for="cat in getCategoriesList" :key="cat">{{ cat }}</option> -->
+            </v-select>
+            <!-- <input :class="[$style.input__block_el]" placeholder="category" v-model="category" /> -->
+            <v-text-field
+                label="price"
+                v-model.number="price">
+            </v-text-field>
+            <v-btn color="teal" dark  @click="save">ADD <v-icon dark>mdi-plus</v-icon></v-btn>
+        </v-form>
 </template>
  
 <script>
-import { mapMutations, mapGetters, mapActions } from 'vuex';
+import { mapMutations, mapGetters } from 'vuex';
 
 export default {
     props: {
@@ -25,21 +38,27 @@ export default {
             date: '',
             category: '',
             price: 0,
+            shown: false
+        }
+    },
+    watch: {
+        date() {
+            this.shown = false;
         }
     },
     methods: {
         ...mapMutations([
             'addPaymentsListData', 'sendData'
         ]),
-        ...mapActions([
-            'sendData',
-        ]),
+        // ...mapActions([
+        //     'sendData',
+        // ]),
         
 
         save() {
             const { date, category, price } = this;
             this.$store.commit('addPaymentsListData', { date, category, price });
-            this.$store.dispatch('sendData');
+            // this.$store.dispatch('sendData');
         },
         
     },
@@ -58,28 +77,4 @@ export default {
 </script>
  
 <style lang="scss" module>
-.wrapper {
-margin: 0 auto;
-padding: 0px;
-font-size: 28px;
-}
-.input__block {
-width: 200px;
-display: flex;
-flex-direction: column;
-margin: 20px 20px;
-}
-.input__block_el {
-height: 30px;
-margin-top: 10px;
-border: 1px solid rgb(182, 182, 182);
-border-radius: 3px;
-}
-.input__block_btn {
-width: 150px;
-height: 30px;
-margin-top: 10px;
-align-self: flex-end;
-}
- 
 </style>

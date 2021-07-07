@@ -96,7 +96,7 @@ export default new Vuex.Store({
                     resolve([
                         {
                             date: '12.05.2021',
-                            category: 'Education',
+                            category: 'Food',
                             price: 123,
                         },
                         {
@@ -106,17 +106,17 @@ export default new Vuex.Store({
                         },
                         {
                             date: '14.05.2021',
-                            category: 'Education',
+                            category: 'Sport',
                             price: 789,
                         },
                         {
                             date: '15.05.2021',
-                            category: 'Education',
+                            category: 'Food',
                             price: 147,
                         },
                         {
                             date: '16.05.2021',
-                            category: 'Education',
+                            category: 'Entertaiment',
                             price: 258,
                         },
                         {
@@ -131,17 +131,17 @@ export default new Vuex.Store({
                         },
                         {
                             date: '19.05.2021',
-                            category: 'Education',
+                            category: 'Food',
                             price: 741,
                         },
                         {
                             date: '20.05.2021',
-                            category: 'Education',
+                            category: 'Sport',
                             price: 963,
                         },
                         {
                             date: '21.05.2021',
-                            category: 'Education',
+                            category: 'Entertaiment',
                             price: 753,
                         },
                         {
@@ -151,12 +151,12 @@ export default new Vuex.Store({
                         },
                         {
                             date: '13.05.2021',
-                            category: 'Education',
+                            category: 'Food',
                             price: 456,
                         },
                         {
                             date: '14.05.2021',
-                            category: 'Education',
+                            category: 'Sport',
                             price: 789,
                         },
                         {
@@ -166,7 +166,7 @@ export default new Vuex.Store({
                         },
                         {
                             date: '16.05.2021',
-                            category: 'Education',
+                            category: 'Entertaiment',
                             price: 258,
                         },
                         {
@@ -176,12 +176,12 @@ export default new Vuex.Store({
                         },
                         {
                             date: '18.05.2021',
-                            category: 'Education',
+                            category: 'Food',
                             price: 852,
                         },
                         {
                             date: '19.05.2021',
-                            category: 'Education',
+                            category: 'Navigation',
                             price: 741,
                         },
                         {
@@ -191,11 +191,11 @@ export default new Vuex.Store({
                         },
                         {
                             date: '21.05.2021',
-                            category: 'Education',
+                            category: 'Food',
                             price: 753,
                         },{
                             date: '12.05.2021',
-                            category: 'Education',
+                            category: 'Entertaiment',
                             price: 123,
                         },
                         {
@@ -205,17 +205,17 @@ export default new Vuex.Store({
                         },
                         {
                             date: '14.05.2021',
-                            category: 'Education',
+                            category: 'Navigation',
                             price: 789,
                         },
                         {
                             date: '15.05.2021',
-                            category: 'Education',
+                            category: 'Sport',
                             price: 147,
                         },
                         {
                             date: '16.05.2021',
-                            category: 'Education',
+                            category: 'Food',
                             price: 258,
                         },
                         {
@@ -225,12 +225,12 @@ export default new Vuex.Store({
                         },
                         {
                             date: '18.05.2021',
-                            category: 'Education',
+                            category: 'Food',
                             price: 852,
                         },
                         {
                             date: '19.05.2021',
-                            category: 'Education',
+                            category: 'Sport',
                             price: 741,
                         },
                         {
@@ -240,7 +240,7 @@ export default new Vuex.Store({
                         },
                         {
                             date: '21.05.2021',
-                            category: 'Education',
+                            category: 'Navigation',
                             price: 753,
                         }
                     ])
@@ -256,19 +256,19 @@ export default new Vuex.Store({
                     resolve([
                 'Education', 'Sport', 'Navigation', 'Food', 'Entertaiment',
                 ])
-                }, 500)
+                }, 0)
             })
             .then(res => {
                 commit('setCategoriesList', res)
             })
         },
-        sendData(state) {
-            const d = JSON.stringify(state.state.paymentsList);
-            console.log(d);
-            // // window.localStorage.setItem('list', d);
-            // console.log(JSON.parse(window.localStorage.getItem('list')));
+        // sendData(state) {
+        //     const d = JSON.stringify(state.state.paymentsList);
+        //     console.log(d);
+        //     // // window.localStorage.setItem('list', d);
+        //     // console.log(JSON.parse(window.localStorage.getItem('list')));
                        
-        },
+        // },
        
        
     },

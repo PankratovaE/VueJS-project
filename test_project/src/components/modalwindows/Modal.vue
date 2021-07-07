@@ -4,7 +4,7 @@
                 <header>{{ name1 }}</header>
                 <PaymentsForm v-if="name1 === 'paymentsform'" />
                 <EditForm v-if="name1 === 'editform'" />
-                <button :class="[$style.modal__btn]" @click="$modal.close()">Close window</button>
+                <v-btn dark color="teal" :class="[$style.modal__btn]" @click="$modal.close()">Close window</v-btn>
         </div>
     </div>
 </template>
@@ -36,15 +36,12 @@ export default {
         align-items: center;
         top: 50px;
         left: 50px;
-        height: 300px;
+        height: 350px;
         width: 300px;
         background-color: white;
-        border: 1px solid grey;
     }
     .modal__btn {
-        width: 150px;
-        height: 30px;
-        margin-left: 70px;
+      margin-left: 16px;
     }
 
 </style>
