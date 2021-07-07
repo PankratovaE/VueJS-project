@@ -14,7 +14,7 @@
 </template>
  
 <script>
-import { mapMutations, mapGetters } from 'vuex';
+import { mapMutations, mapGetters, mapActions } from 'vuex';
 
 export default {
     props: {
@@ -29,14 +29,19 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'addPaymentsListData',
+            'addPaymentsListData', 'sendData'
         ]),
+        ...mapActions([
+            'sendData',
+        ]),
+        
 
         save() {
             const { date, category, price } = this;
             this.$store.commit('addPaymentsListData', { date, category, price });
-           
+            this.$store.dispatch('sendData');
         },
+        
     },
     mounted() {
         this.category = this.$route.params.category;
